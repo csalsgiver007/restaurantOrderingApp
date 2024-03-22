@@ -27,6 +27,16 @@ document.addEventListener("click", (e) => {
     const clickedRemoveBtn = e.target.dataset.remove;
     const item = cart.find((item) => item.cartID === Number(clickedRemoveBtn));
     removeItemFromCart(item);
+  } else if (e.target.id === "btn-order") {
+    console.log("Order button clicked");
+    renderPaymentModal();
+  } else if (e.target.id === "btn-pay") {
+    e.preventDefault();
+    console.log("Pay button clicked");
+    const custName = document.getElementById("your-name").value;
+    const cardNum = document.getElementById("your-card").value;
+    const cvv = document.getElementById("cvv").value;
+    renderOrderCompleteModal(custName, cardNum, cvv);
   }
 });
 
@@ -71,4 +81,16 @@ function renderTotalSection(total) {
   const btnOrderElement = document.getElementById("btn-order");
   const totalSection = document.getElementById("total-section");
   totalSection.innerHTML = `<p class="total-price">Totalprice:</p> <p class="total-dollars">$${total}</p>`;
+}
+function renderPaymentModal() {
+  document.getElementById("payment-modal").style.display = "flex";
+}
+function renderOrderCompleteModal(custName, cardNum, cvv) {
+  document.getElementById("checkout-section").style.display = "none";
+  document.getElementById("total-section").style.display = "none";
+  document.getElementById("payment-modal").style.display = "none";
+  document.getElementById("order-complete").style.display = "block";
+  document.getElementById(
+    "order-complete"
+  ).innerHTML = `<h2>Thanks, ${custName}! Your order is on its way!</h2>`;
 }
